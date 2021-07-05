@@ -69,7 +69,7 @@ void setup() {
   //VL6180X.setALSGain(VL6180X_ALS_GAIN_1);
 
   // The interface for setting the threshold here is related to the interface for setting the gain. If you want to specify both the gain and the threshold at the same time, 
-  /*  please set the gain first and then set the threshold
+  /*  please set the gain first and then set the threshold */
   VL6180X.setALSThresholdValue(/*thresholdL 0-65535lux */40,/*thresholdH 0-65535lux*/100);
   
   #if defined(ESP32) || defined(ESP8266)||defined(ARDUINO_SAM_ZERO)
