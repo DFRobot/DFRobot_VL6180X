@@ -4,7 +4,7 @@
 
 VL6180X是意法半导体的一款ToF激光测距传感器，可测量5-100mm的距离，但在良好的环境下测量距离可达200mm。VL6180X搭载了意法半导体FlightSense ™技术，可以精确的测量距离，与目标反射率无关。同时VL6180X还搭载了环境光传感器，可以测量出环境光数据。
 
-![产品实物图](./resources/images/SEN0427.jpg)
+![产品实物图](../../resources/images/SEN0427.png)
 
 
 ## 产品链接(https://www.dfrobot.com.cn/goods-3122.html)
