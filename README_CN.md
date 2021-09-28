@@ -233,14 +233,15 @@ VL6180X是意法半导体的一款ToF激光测距传感器，可测量5-100mm的
 ## 兼容性
 
 主控               |  正常运行    |   运行失败    |   未测试    | 备注
------------------- | :----------: | :----------: | :---------: | :---------:|
-Arduino uno        |              |              |             | 只支持3.3V |
-FireBeetle esp32   |      √       |              |             |            |
-FireBeetle esp8266 |      √       |              |             |            |
-FireBeetle m0      |      √       |              |             |            |
-Leonardo           |              |              |             | 只支持3.3V |
-Microbit           |      √       |              |             |            |
-Arduino MEGA2560   |              |              |             | 只支持3.3V |
+| ------------------ | :-------: | :--------: | :------: | ------- |
+| Arduino Uno        |     √     |            |          |         |
+| FireBeetle-ESP8266 |     √     |            |          |         |
+| FireBeetle-ESP32   |     √     |            |          |         |
+| Arduino MEGA2560   |     √     |            |          |         |
+| Arduino Leonardo   |     √     |            |          |         |
+| Micro:bit          |     √     |            |          |         |
+| FireBeetle-M0      |     √     |            |          |         |
+| Raspberry Pi       |     √     |            |          |         |
 
 
 ## 历史
