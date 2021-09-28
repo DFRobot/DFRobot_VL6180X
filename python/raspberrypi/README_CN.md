@@ -1,36 +1,38 @@
-DFRobot_VL6180X
+# DFRobot_VL6180X
 
-The VL6180X is the latest product based on ST’s patented FlightSense™technology. This is a ground-breaking technology allowing absolute distance to be measured independent of target reflectance. Instead of estimating the distance by measuring the amount of light reflected back from the object (which is significantly influenced by color and surface), the VL6180X precisely measures the time the light takes to travel to the nearest object and reflect back to the sensor (Time-of-Flight).
+- [English Version](./README.md)
 
-![Physical product drawing](./resources/images/SEN0427.jpg)
+VL6180X是意法半导体的一款ToF激光测距传感器，可测量5-100mm的距离，但在良好的环境下测量距离可达200mm。VL6180X搭载了意法半导体FlightSense ™技术，可以精确的测量距离，与目标反射率无关。同时VL6180X还搭载了环境光传感器，可以测量出环境光数据。
 
-## Product Link(https://www.dfrobot.com/product-2287.html)
+![产品实物图](./resources/images/SEN0427.jpg)
+
+
+## 产品链接(https://www.dfrobot.com.cn/goods-3122.html)
     SKU：SEN0427
 
-## Table of Contents
+## 目录
 
-* [Summary](#summary)
-* [Installation](#installation)
-* [Methods](#methods)
-* [Compatibility](#compatibility)
-* [History](#history)
-* [Credits](#credits)
+* [概述](#概述)
+* [库安装](#库安装)
+* [方法](#方法)
+* [兼容性](#兼容性)
+* [历史](#历史)
+* [创作者](#创作者)
 
 
-## Summary
+## 概述
 
-* Measures absolute range from 0 to above 10 cm
-* Measurement of ambient light data
+* 测量距离范围5-100mm
+* 环境光数据的测量
 
-## Installation
+## 库安装
 
-To use this library, first download the library to Raspberry Pi, then open the routines folder. To execute one routine, demox.py, type python demox.py on the command line. To execute the als_continuous_measurement_mode.py routine, for example, you need to type:
-
+要使用这个库，首先将库下载到Raspberry Pi，然后打开例程文件夹。要执行一个例程demox.py，请在命令行中输入python demox.py。例如，要执行als_continuous_measurement_mode.py例程，你需要输入:
 ```
 python als_continuous_measurement_mode.py
 ```
 
-## Methods
+## 方法
 
 ```python
    ''' 
@@ -227,9 +229,10 @@ python als_continuous_measurement_mode.py
 
 ```
 
-## Compatibility
 
-* RaspberryPi Version
+## 兼容性
+
+* RaspberryPi 版本
 
 | Board        | Work Well | Work Wrong | Untested | Remarks |
 | ------------ | :-------: | :--------: | :------: | ------- |
@@ -237,7 +240,7 @@ python als_continuous_measurement_mode.py
 | RaspberryPi3 |           |            |    √     |         |
 | RaspberryPi4 |     √     |            |          |         |
 
-* Python Version
+* Python 版本
 
 | Python  | Work Well | Work Wrong | Untested | Remarks |
 | ------- | :-------: | :--------: | :------: | ------- |
@@ -245,12 +248,13 @@ python als_continuous_measurement_mode.py
 | Python3 |     √     |            |          |         |
 
 
-## History
+## 历史
 
-- data 2021-03-10
-- version V1.0
+- 日期 2021-09-28
+- 版本 V1.0.0
 
 
-## Credits
+## 创作者
 
-Written by [yangfeng]<feng.yang@dfrobot.com>,2021,(Welcome to our [website](https://www.dfrobot.com/))
+Written by yangfeng(feng.yang@dfrobot.com), 2021. (Welcome to our [website](https://www.dfrobot.com/))
+
