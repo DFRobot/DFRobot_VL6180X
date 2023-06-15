@@ -34,199 +34,165 @@ VL6180X是意法半导体的一款ToF激光测距传感器，可测量5-100mm的
 
 ```C++
    /**
-   * @brief 初始化函数
-   * @return 返回0表示初始化成功，返回其他值表示初始化失败，返回错误码
+   * @brief  初始化函数
+   * @return 判断设备是否打开。 返回真成功;返回假失败。
    */
-  int begin(void);
+  bool begin();
 
   /**
-   * @brief 获取测量温度值
-   * @return 温度值 单位：℃
+   * @brief  配置 INT 引脚的默认电平并启用 GPIO1 中断功能
+   * @param  mode  启用的中断模式
+   * @n            VL6180X_DIS_INTERRUPT  禁用中断
+   * @n            VL6180X_DIS_INTERRUPT  启用 GPIO1 中断，默认情况下 INT 为高
+   * @n            VL6180X_LOW_INTERRUPT  启用 GPIO1 中断，默认情况下 INT 为低
    */
-  float getTemperature(void);
+  void setInterrupt(uint8_t mode);
 
   /**
-   * @brief 获取X轴加速计值
-   * @return X轴加速计值 单位：mg
+   * @brief  轮询测量范围
+   * @return   return 范围 ,单位 mm
    */
-  float getAccelDataX(void);
+  uint8_t rangePollMeasurement();
 
   /**
-   * @brief 获取Y轴加速计值
-   * @return Y轴加速计值 单位：mg
+   * @brief  配置范围周期
+   * @param  period_ms  测量周期，以毫秒为单位
    */
-  float getAccelDataY(void);
+  void rangeSetInterMeasurementPeriod(uint16_t periodMs);
 
   /**
-   * @brief 获取Z轴加速计值
-   * @return Z轴加速计值 单位：mg
+   * @brief  配置用于测距的中断模式
+   * @param  mode  启用的中断模式
+   * @n              VL6180X_INT_DISABLE                           interrupt disable                   
+   * @n              VL6180X_LEVEL_LOW                             value < thresh_low                      
+   * @n              VL6180X_LEVEL_HIGH                            value > thresh_high                      
+   * @n              VL6180X_OUT_OF_WINDOW                         value < thresh_low OR value > thresh_high
+   * @n              VL6180X_NEW_SAMPLE_READY                      new sample ready                      
    */
-  float getAccelDataZ(void);
+  bool rangeConfigInterrupt(uint8_t mode);
 
   /**
-   * @brief 获取X轴陀螺仪值
-   * @return X轴陀螺仪值 单位：dps
+   * @brief  配置环境光的中断模式
+   * @param  mode  启用的中断模式
+   * @n              VL6180X_INT_DISABLE                           interrupt disable                   
+   * @n              VL6180X_LEVEL_LOW                             value < thresh_low                      
+   * @n              VL6180X_LEVEL_HIGH                            value > thresh_high                      
+   * @n              VL6180X_OUT_OF_WINDOW                         value < thresh_low OR value > thresh_high
+   * @n              VL6180X_NEW_SAMPLE_READY                      new sample ready                      
    */
-  float getGyroDataX(void);
+  bool alsConfigInterrupt(uint8_t mode);
 
   /**
-   * @brief 获取Y轴陀螺仪值
-   * @return Y轴陀螺仪值 单位：dps
+   * @brief 启用连续测距模式
    */
-  float getGyroDataY(void);
+  void rangeStartContinuousMode();
 
   /**
-   * @brief 获取Z轴陀螺仪值
-   * @return Z轴陀螺仪值 单位：dps
+   * @brief  检索测距数据
+   * @return   return 测距数据 ,单位： mm
    */
-  float getGyroDataZ(void);
+  uint8_t rangeGetMeasurement();
 
   /**
-   * @brief 敲击事件初始化
-   * @param accelMode 加速计工作模式 0 代表工作在低功耗模式 ，1代表工作在低噪声模式
+   * @brief  清除环境光中断
    */
-  void tapDetectionInit(uint8_t accelMode);
+  void clearAlsInterrupt();
 
   /**
-   * @brief 获取敲击信息
+   * @brief  清除测距中断
    */
-  void getTapInformation();
+  void clearRangeInterrupt();
 
   /**
-   * @brief 获取敲击次数，分别是：单击、双击
-   * @return 分别是：单击 TAP_SINGLE、双击TAP_DOUBLE
+   * @brief 环境光的单一测量
+   * @return   return 光强度，单位： lux
    */
-  uint8_t numberOfTap();
+  float alsPoLLMeasurement();
 
   /**
-   * @brief 获取敲击轴，分别是：X\Y\Z轴
-   * @return 分别是：X_AXIS、Y_AXIS、Z_AXIS
+   * @brief  获取测量的光数据
+   * @return   return 光强度，单位： lux
    */
-  uint8_t axisOfTap();
+  float alsGetMeasurement();
 
   /**
-   * @brief 初始化移动唤醒
+   * @brief  支持连续测量环境光强度模式
    */
-  void wakeOnMotionInit();
+  void alsStartContinuousMode();
 
   /**
-   * @brief 设置某轴加速度计的运动中断唤醒的阈值
-   * @param axis  x/y/z轴
-   * @n           X_AXIS_WOM
-   * @n           Y_AXIS_WOM
-   * @n           Z_AXIS_WOM
-   * @n           ALL
-   * @param threshold  Range(0-255) [WoM thresholds are expressed in fixed “mg” independent of the selected Range [0g : 1g]; Resolution 1g/256=~3.9mg]
+   * @brief 配置测量光强度的周期
+   * @param period_ms 测量周期，以毫秒为单位
    */
-  void setWOMTh(uint8_t axis,uint8_t threshold);
+  void alsSetInterMeasurementPeriod(uint16_t periodMs);
 
   /**
-   * @brief 使能运动唤醒中断
-   * @param axis  x/y/z轴
-   * @n           X_AXIS_WOM
-   * @n           Y_AXIS_WOM
-   * @n           Z_AXIS_WOM
+   * @brief  打开交错模式
    */
-  void setWOMInterrupt(uint8_t axis);
+  void startInterleavedMode();
 
   /**
-   * @brief 设置重要运动检测模式并且开启SMD中断
-   * @param mode  0: disable SMD
-   * @n           2 : SMD short (1 sec wait) An SMD event is detected when two WOM are detected 1 sec apart
-   * @n           3 : SMD long (3 sec wait) An SMD event is detected when two WOM are detected 3 sec apart
+   * @brief  获取测距的中断状态
+   * @return   return status
+   * @n             0                        ： No threshold events reported
+   * @n             VL6180X_LEVEL_LOW        ：value < thresh_low
+   * @n             VL6180X_LEVEL_HIGH       ：value > thresh_high
+   * @n             VL6180X_OUT_OF_WINDOW    ：value < thresh_low OR value > thresh_high
+   * @n             VL6180X_NEW_SAMPLE_READY ：new sample ready
    */
-  void enableSMDInterrupt(uint8_t mode);
+  uint8_t rangeGetInterruptStatus();
 
   /**
-   * @brief 读取中断信息，并清除中断
-   * @param reg 中断信息寄存器
-   * @n         ICM42688_INT_STATUS2    可以获取SMD_INT、WOM_X_INT、WOM_Y_INT、WOM_Z_INT中断信息并且清除
-   * @n         ICM42688_INT_STATUS3    可以获取STEP_DET_INT、STEP_CNT_OVF_INT、TILT_DET_INT、WAKE_INT、TAP_DET_INT中断信息并且清除
-   * @return 中断信息，无中断时返回0。
+   * @brief  获取测量光强度的中断状态
+   * @return   return 状态
+   * @n             0                        ：未报告阈值事件
+   * @n             VL6180X_LEVEL_LOW        ：value < thresh_low
+   * @n             VL6180X_LEVEL_HIGH       ：value > thresh_high
+   * @n             VL6180X_OUT_OF_WINDOW    ：value < thresh_low OR value > thresh_high
+   * @n             VL6180X_NEW_SAMPLE_READY ：new sample ready
    */
-  uint8_t readInterruptStatus(uint8_t reg);
+  uint8_t alsGetInterruptStatus();
 
   /**
-   * @brief 设置陀螺仪或者加速计的ODR和 Full-scale range
-   * @param who  GYRO/ACCEL/ALL
-   * @n          GYRO:代表只设置陀螺仪
-   * @n          ACCEL:代表只设置加速计
-   * @param ODR 输出数据速率
-   * @n         ODR_32KHZ         支持：Gyro/Accel(LN mode)
-   * @n         ODR_16KHZ         支持：Gyro/Accel(LN mode)
-   * @n         ODR_8KHZ          支持：Gyro/Accel(LN mode)
-   * @n         ODR_4KHZ          支持：Gyro/Accel(LN mode)
-   * @n         ODR_2KHZ          支持：Gyro/Accel(LN mode)
-   * @n         ODR_1KHZ          支持：Gyro/Accel(LN mode)
-   * @n         ODR_200HZ         支持：Gyro/Accel(LP or LN mode)
-   * @n         ODR_100HZ         支持：Gyro/Accel(LP or LN mode)
-   * @n         ODR_50HZ          支持：Gyro/Accel(LP or LN mode)
-   * @n         ODR_25KHZ         支持：Gyro/Accel(LP or LN mode)
-   * @n         ODR_12_5KHZ       支持：Gyro/Accel(LP or LN mode)
-   * @n         ODR_6_25KHZ       支持：Accel(LP mode)
-   * @n         ODR_3_125HZ       支持：Accel(LP mode)
-   * @n         ODR_1_5625HZ      支持：Accel(LP mode)
-   * @n         ODR_500HZ         支持：Accel(LP or LN mode)
-   * @param FSR Full-scale range
-   * @n         FSR_0      Gyro:±2000dps   /   Accel: ±16g
-   * @n         FSR_1      Gyro:±1000dps   /   Accel: ±8g
-   * @n         FSR_2      Gyro:±500dps    /   Accel: ±4g
-   * @n         FSR_3      Gyro:±250dps    /   Accel: ±2g
-   * @n         FSR_4      Gyro:±125dps    /   Accel: 不可选
-   * @n         FSR_5      Gyro:±62.5dps   /   Accel: 不可选
-   * @n         FSR_6      Gyro:±31.25dps  /   Accel: 不可选
-   * @n         FSR_7      Gyro:±15.625dps /   Accel: 不可选
-   * @return true代表设置设置成功；flase代表选择的参数有误
+   * @brief  获取范围数据的验证信息
+   * @return 验证信息
    */
-  bool setODRAndFSR(uint8_t who,uint8_t ODR,uint8_t FSR);
-  /**
-   * @brief 设置FIFO的数据包格式
-   */
-  void setFIFODataMode();
-  /**
-   * @brief 启用FIFO
-   */
-  void startFIFOMode();
+  uint8_t getRangeResult();
 
   /**
-   * @brief 关闭停用FIFO
+   * @brief  设置i2c设备地址
+   * @param  addr  要修改的 IIC 地址
    */
-  void sotpFIFOMode();
+  void setIICAddr(uint8_t addr);
 
   /**
-   * @brief 读取FIFO数据，分别读出温度数据、陀螺仪数据、加速计数据并保存等待解析
+   * @brief  设置 ALS 增益
+   * @param  gain  增益值（范围0-7）
+   * @n            20   倍增益: VL6180X_ALS_GAIN_20       = 0
+   * @n            10   倍增益: VL6180X_ALS_GAIN_10       = 1
+   * @n            5    倍增益: VL6180X_ALS_GAIN_5        = 2
+   * @n            2.5  倍增益: VL6180X_ALS_GAIN_2_5      = 3
+   * @n            1.57 倍增益: VL6180X_ALS_GAIN_1_67     = 4
+   * @n            1.27 倍增益: VL6180X_ALS_GAIN_1_25     = 5
+   * @n            1    倍增益: VL6180X_ALS_GAIN_1        = 6
+   * @n            40   倍增益: VL6180X_ALS_GAIN_40       = 7
+   * @return true :设置成功, false :设置失败
    */
-  void getFIFOData();
+  bool setALSGain(uint8_t gain = VL6180X_ALS_GAIN_1);
 
   /**
-   * @brief 设置中断模式
-   * @param INTPin  中断引脚 ：1 代表使用INT1中断引脚；2代表使用INT2中断引脚
-   * @param INTmode 设置中断模式，1 代表中断锁定模式（即中断触发后会保持极性，清除中断后恢复）；0 代表脉冲模式
-   * @param INTPolarity 中断输出的电平极性，0 代表产生中断时中断引脚极性为LOW, 1 代表产生中断时中断引脚极性为HIGH
-   * @param INTDriveCircuit  0 代表Open drain  1 代表 Push pull
+   * @brief  设置 ALS 阈值
+   * @param  thresholdL :下限阈值
+   * @param  thresholdH :上限阈值
    */
-  void setINTMode(uint8_t INTPin,uint8_t INTmode,uint8_t INTPolarity,uint8_t INTDriveCircuit);
+  void setALSThresholdValue(uint16_t thresholdL=0x0000,uint16_t thresholdH=0xFFFF);
 
   /**
-   * @brief 启动陀螺仪
-   * @param mode 设置陀螺仪的工作模式
-   * @n          STANDBY_MODE_ONLY_GYRO 1  设置为备用模式，仅支持陀螺仪
-   * @n          LN_MODE  3                设置为低噪声模式
+   * @brief  设置范围阈值
+   * @param  thresholdL :下限阈值
+   * @param  thresholdH :上限阈值
    */
-  void startGyroMeasure(uint8_t mode);
-
-  /**
-   * @brief 启动加速计
-   * @param mode 设置加速计的工作模式
-   * @n          LP_MODE_ONLY_ACCEL  2     设置为低功耗模式，仅支持加速计
-   * @n          LN_MODE  3                设置为低噪声模式
-   */
-  void startAccelMeasure(uint8_t mode);
-
-  /**
-   * @brief 启动温度计
-   */
-  void startTempMeasure();
+  void setRangeThresholdValue(uint8_t thresholdL=0x00,uint8_t thresholdH=0xFF);
 ```
 
 
